@@ -155,6 +155,7 @@ int main()
 
 #elif defined(MAXIMILIAN_RT_AUDIO)
 	RtAudio dac(RtAudio::WINDOWS_DS);
+	std::cout << dac.getDeviceCount();
 	if ( dac.getDeviceCount() < 1 ) {
 		std::cout << "\nNo audio devices found! rt\n";
 		char input;
@@ -163,10 +164,10 @@ int main()
 	}
 
 
-  std::cout << dac.getDeviceCount();
+
 	RtAudio::StreamParameters parameters;
-	//parameters.deviceId = 1;
-	parameters.deviceId = dac.getDefaultOutputDevice();
+	parameters.deviceId = 2;
+	//parameters.deviceId = dac.getDefaultOutputDevice();
 	parameters.nChannels = maxiSettings::channels;
 	parameters.firstChannel = 0;
 	unsigned int sampleRate = maxiSettings::sampleRate;

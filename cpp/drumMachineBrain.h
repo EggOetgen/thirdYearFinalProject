@@ -21,6 +21,7 @@ public:
 
     double play();
     void trigger(int playHead);
+    void euclidSeq(int voice, int length, int pulses)
 
     drumSynth test, test2, test3, test4;
 
