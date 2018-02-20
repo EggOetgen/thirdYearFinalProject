@@ -110,7 +110,13 @@ void play(double *output) {
 int main()
 {
 	setup();
-
+	int fd;                             // File descriptor
+	// Open port
+	fd = open("/dev/cu.usbmodem1421", O_RDWR | O_NOCTTY | O_NDELAY);
+	if (fd == -1){
+	    printf("Device cannot be opened.\n");
+	    exit(-1);                       // If the device is not open, return -1
+	}
 #ifdef MAXIMILIAN_PORTAUDIO
 	PaStream *stream;
 	PaError err;
@@ -166,8 +172,8 @@ int main()
 
 
 	RtAudio::StreamParameters parameters;
-	parameters.deviceId = 2;
-	//parameters.deviceId = dac.getDefaultOutputDevice();
+	//parameters.deviceId = 2;
+	parameters.deviceId = dac.getDefaultOutputDevice();
 	parameters.nChannels = maxiSettings::channels;
 	parameters.firstChannel = 0;
 	unsigned int sampleRate = maxiSettings::sampleRate;
