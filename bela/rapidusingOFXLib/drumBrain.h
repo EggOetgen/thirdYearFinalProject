@@ -13,7 +13,7 @@
 #include "maximilian.h"
 #include "drumSynth.h"
 
-#define NUM_OF_VOICES 2
+#define NUM_OF_VOICES 4
 
 class drumBrain{
 

@@ -16,7 +16,7 @@ class drumSynth{
 
 public:
 
-    drumSynth(double freq = 40, double pma = 2.5, float gain_ =0.5, float om = 0.4, float tm = 1.0, float nm = 0.1, float oa = 0,float oh = 1.0, float oR = 4000, float pa = 0, float pr = 100, float na = 0, float nr = 5);
+    drumSynth(double freq = 40, double pma = 2.5, float gain_ =0.5, float om = 1.0, float tm = 1.0, float nm = 0.1, float oa = 0,float oh = 1.0, float oR = 800, float pa = 0, float pr = 100, float na =0, float nr = 5);
 
     double play(bool isMute);
     void trigger();

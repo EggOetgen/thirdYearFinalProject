@@ -5,16 +5,23 @@
 //#include "rapidLib/regression.h"
 #include "drumSynth.h"
 #include "rapidBrain.h"
+#include "drumBrain.h"
 //maximilian stuff
 maxiClock benKlock;
 int playHead;
 
 drumSynth test;
+drumBrain testBrain;
 //---------------
 
 //sensor stuff---
 int pitchPot = 0;
 int tonePot  = 1;
+int volPot  = 3;
+
+
+float frequency;
+float tone;
 
 float gPhase;
 float gInverseSampleRate;
@@ -48,6 +55,9 @@ bool setup(BelaContext *context, void *userData)
 
 	playHead = 0;
 	
+	tone = 1.0;
+	frequency = 0.5;
+	
     benKlock.setTempo(128      );
     benKlock.setTicksPerBeat(4);
 	
@@ -56,8 +66,7 @@ bool setup(BelaContext *context, void *userData)
 
 void render(BelaContext *context, void *userData)
 {
-	float frequency = 440.0;
-	float tone = 1.0;
+	
 for(unsigned int n = 0; n < context->audioFrames; n++) {
 	
 	int status1=digitalRead(context, 0, P8_08); //read the value of the button
@@ -70,22 +79,28 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		
 		if(!(n % gAudioFramesPerAnalogFrame)) {
 			// On even audio samples: read analog inputs and update frequency and amplitude
-			frequency = ::map(analogRead(context, n/gAudioFramesPerAnalogFrame, pitchPot), 0, 1, 30, 100);
+		//	if(analogRead(context, n/gAudioFramesPerAnalogFrame, pitchPot) != frequency){
+			frequency = analogRead(context, n/gAudioFramesPerAnalogFrame, pitchPot);
+			//testBrain.voices[0].frequency 
+			benKlock.setTempo( ::map(frequency, 0, 1, 30, 400));
+		//	}
 			//tone = map(analogRead(context, n/gAudioFramesPerAnalogFrame, pitchPot), 0, 1, , 100);
-			test.frequency = frequency;
-			tone = analogRead(context, n/gAudioFramesPerAnalogFrame, tonePot);
-			test.oscMix = tone;
+		//	testBrain.voices[0].frequency = ::map(frequency, 0, 1, 30, 100);;
+		//	tone = analogRead(context, n/gAudioFramesPerAnalogFrame, tonePot);
+			
+		//	testBrain.voices[0].oscMix = tone;
 		}
 	  benKlock.ticker();
 
         if (benKlock.tick) {
             playHead++;
             playHead%=16;
-			if(test.sequence[playHead] == 1)		
-        	  test.trigger();
+            testBrain.step(playHead);
+		//	if(test.sequence[playHead] == 1)		
+        //	  test.trigger();
         }
 
-   float out = test.play(false);
+   float out = testBrain.play() * analogRead(context, n/gAudioFramesPerAnalogFrame, volPot); ;
 	
 		for(unsigned int channel = 0; channel < context->audioOutChannels; channel++) {
 			// Two equivalent ways to write this code
