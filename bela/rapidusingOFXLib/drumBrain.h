@@ -1,3 +1,4 @@
+/***** drumBrain.h *****/
 //
 //  drumMachineBrain.hpp
 //  kickMachine
@@ -9,22 +10,27 @@
 #pragma once
 
 
-#include "Maximilian/maximilian.h"
+#include "maximilian.h"
 #include "drumSynth.h"
 
+#define NUM_OF_VOICES 2
 
-class drumMachineBrain{
+class drumBrain{
 
 public:
 
-    drumMachineBrain();
+    drumBrain();
 
     double play();
-    void trigger(int playHead);
+    void step(int &playHead);
     void euclidSeq(int voice, int length, int pulses);
 
-    drumSynth test, test2, test3, test4;
-
+//	int numOfVoices = 1;
+   // drumSynth test, test2, test3, test4;
+	drumSynth voices[NUM_OF_VOICES];
+	
+	int seqLengths[NUM_OF_VOICES];
+	int sequences[NUM_OF_VOICES][16];
     float freqs[16]  = {400,160,0,80,0,160,120,200,180,80,40,80,40,160,40,80};
     // void update();
     // void setFrequency(double newFreq);
