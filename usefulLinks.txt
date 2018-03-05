@@ -1,1 +1,5 @@
 http://www.hertaville.com/interfacing-an-spi-adc-mcp3008-chip-to-the-raspberry-pi-using-c.html
+
+https://www.reddit.com/r/pocketoperators/comments/4n527n/replacement_parts_for_poxx/
+
+http://www.ganssle.com/debouncing-pt2.htm

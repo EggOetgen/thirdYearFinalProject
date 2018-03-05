@@ -30,7 +30,6 @@ public:
     void setOscMix(float mix);
     void setNoiseMix(float mix);
     void setToneMix(float mix);
-    void setAll(double & freq, double & pma, float & gain_, float & om, float & tm, float & nm, float & oa, float & oh, float & oR, float & pa, float & pr, float & na, float & nr);
     void randomiseSeq();
     void mutate();
 

@@ -25,9 +25,6 @@ public:
 
     double play();
     void step(int &playHead);
-   	// void updateVoice(uint8_t voice, double & freq, double & pma, float & gain_, float & om, float & tm, float & nm, float & oa, float & oh, float & oR, float & pa, float & pr, float & na, float & nr);
-     void updateVoice(uint8_t voice,  double  freq, double  pma, float  gain_, float  om, float  tm, float  nm, float  oa, float  oh, float  oR, float  pa, float  pr, float  na, float  nr);
-
     void euclidSeq( uint8_t & length, uint8_t pulses);
     // void euclidSeq(int voice, int length, int pulses);
 	// vector<uint8_t> euclid(int8_t level);
@@ -35,7 +32,6 @@ public:
    // drumSynth test, test2, test3, test4;
 	drumSynth voices[NUM_OF_VOICES];
 	
-
 	
 	int seqLengths[NUM_OF_VOICES];
 	int sequences[NUM_OF_VOICES][16];

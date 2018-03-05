@@ -3,16 +3,10 @@
 
 drumBrain::drumBrain(){
 	
-				//freq, pma, gain_, om, tm, nm, oa, oh, oR, pa, pr, na, nr
-	// voices[0].setAll(40., 4.184, 1., 0.692, 1., 0., 0., 1., 504., 0., 84., 0., 0. );
-	updateVoice(0, 40., 4.184, 1., 0.692, 1., 0., 0., 1., 504., 0., 84., 0., 0. );
-	updateVoice(1, 200., 3.6, 1., 0.14, 0.14, 0.85, 0., 1., 428., 0., 100., 0., 228. );
-	updateVoice(2, 0., 0, 1., 0., 0., 1., 0., 1., 504., 0., 84., 0., 29. );
-	
 	// voices[0] = drumSynth();
-    // voices[1].frequency = 200 ;
-    // voices[2].frequency =  120;
-    // voices[3].frequency= 400 ;
+    voices[1].frequency = 200 ;
+    voices[2].frequency =  120;
+ //   voices[3] = drumSynth() ;
    /* voices[4] = drumSynth(128,  1.5, 0.5, 0.75, 0.075,     0, 0, 750, 1, 0, 16,  0, 44.5) ;
     voices[5] = drumSynth(260, 3.66, 0.5, 0.75, 0.075,     0, 0, 750, 1, 0, 16,  0, 44.5) ;
     voices[6] = drumSynth(260, 3.66, 0.5, 0.75, 0.075,     0, 0, 750, 1, 0, 16,  0, 44.5) ;
@@ -20,28 +14,28 @@ drumBrain::drumBrain(){
 */
 	 int chan1Seq[]= { 1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0};
     memcpy(sequences[0], chan1Seq, sizeof(chan1Seq));
-    int chan2Seq[]= { 0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0};
-    memcpy(sequences[1], chan2Seq, sizeof(chan2Seq));
-    int chan3Seq[]= { 0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0};
-    memcpy(sequences[2], chan3Seq, sizeof(chan3Seq));
-    int chan4Seq[]= { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    memcpy(sequences[3], chan4Seq, sizeof(chan4Seq));
-   // int chan5Seq[]= { 1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0};
-    // memcpy(sequences[4], chan5Seq, sizeof(chan5Seq));
-    // int chan6Seq[]= { 0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0};
-    // memcpy(sequences[5], chan6Seq, sizeof(chan6Seq));
-    // int chan7Seq[]= { 0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0};
-    // memcpy(sequences[6], chan7Seq, sizeof(chan7Seq));
-    // int chan8Seq[]= { 0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0};
-    // memcpy(sequences[7], chan8Seq, sizeof(chan8Seq));
+  //  int chan2Seq[]= { 0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0};
+  //  memcpy(sequences[1], chan2Seq, sizeof(chan2Seq));
+  //  int chan3Seq[]= { 0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0};
+  //  memcpy(sequences[2], chan3Seq, sizeof(chan3Seq));
+  ///*  int chan4Seq[]= { 0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0};
+  //  memcpy(sequences[3], chan4Seq, sizeof(chan4Seq));
+  //  int chan5Seq[]= { 1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0};
+  //  memcpy(sequences[4], chan5Seq, sizeof(chan5Seq));
+  //  int chan6Seq[]= { 0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0};
+  //  memcpy(sequences[5], chan6Seq, sizeof(chan6Seq));
+  //  int chan7Seq[]= { 0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0};
+  //  memcpy(sequences[6], chan7Seq, sizeof(chan7Seq));
+  //  int chan8Seq[]= { 0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0};
+  //  memcpy(sequences[7], chan8Seq, sizeof(chan8Seq));
 
 	for (uint8_t i = 0; i < NUM_OF_VOICES; i++){
 		
 		seqLengths[i] = 16;
 	}
 	
-//	seqLengths[1] = 7;
-//	seqLengths[2] = 3;
+	seqLengths[1] = 7;
+	seqLengths[2] = 3;
 	// uint8_t p = 3;
 	// uint8_t l = 7;
 	// euclidSeq(l, p);
@@ -73,8 +67,8 @@ void drumBrain::step(int & playHead){
  	 
  	 seqLengths[0] = length;
  	  
- 	 //euclid E;
- 	 //E.euclidAlg(length, pulses);
+ 	 euclid E;
+ 	 E.euclidAlg(length, pulses);
  	 //vector<uint8_t> euclidOutput = E.returnSequence();
  	 //for(uint8_t i = 0; i < length; ++i){
  	 	
@@ -128,19 +122,7 @@ double drumBrain::play(){
 		output += voices[i].play(false);
 	}
    // output = channels[5].play(mutes[5]);
-   
+    if (output > 1) output = 0.7;
     return output;
 
 }
-
-
-// void drumBrain::updateVoice(uint8_t voice, double & freq, double & pma, float & gain_, float & om, float & tm, float & nm, float & oa, float & oh, float & oR, float & pa, float & pr, float & na, float & nr){
-		
-// 		voices[voice].setAll(freq, pma, gain_, om, tm, nm, oa, oh, oR, pa, pr, na, nr);
-// 	}
-	void drumBrain::updateVoice(uint8_t voice, double  freq, double  pma, float  gain_, float  om, float  tm, float  nm, float  oa, float  oh, float  oR, float  pa, float  pr, float  na, float  nr){
-		
-		voices[voice].setAll(freq, pma, gain_, om, tm, nm, oa, oh, oR, pa, pr, na, nr);
-	}
-
-
