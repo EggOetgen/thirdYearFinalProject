@@ -10,15 +10,15 @@
 
 
 #include "maximilian.h"
-
+#include <OscillatorBank.h>
 
 class drumSynth{
 
 public:
 
-    drumSynth(double freq = 80, double pma = 2.5, float gain_ =0.5, float om = 1.0, float tm = 1.0, float nm = 0.1, float oa = 0,float oh = 1.0, float oR = 1000, float pa = 0, float pr = 100, float na =0, float nr = 5);
+    drumSynth(double freq = 80, double pma = 2.5, float gain_ =0.5, float om = 1.0, float tm = 1.0, float nm = 0.1, float oa = 0,float oh = 1.0, float oR = 1000, float pa = 0, float pr = 100, float na =0, float nr = 5, int sampleRate_ = 1024);
 
-    double play(bool isMute);
+    double play(bool isMute, int n);
     void trigger();
     void update();
     void setFrequency(double newFreq);
@@ -38,7 +38,9 @@ public:
     maxiOsc saw;
     maxiOsc noise;
     maxiOsc FM;
-
+	
+	OscillatorBank sineBank;
+	
     maxiEnv oscAmpEnv;
     maxiEnv test;
 
@@ -64,5 +66,5 @@ public:
     float toneMix = 0.25;
 
     int sequence [16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
+	int sampleRate;
 };

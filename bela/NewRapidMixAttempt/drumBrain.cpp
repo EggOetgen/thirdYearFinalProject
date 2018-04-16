@@ -121,7 +121,7 @@ void drumBrain::step(int & playHead){
 //  build_string (level-2); 
 //  }
 // }
-double drumBrain::play(){
+double drumBrain::play(int n){
 	
 	double output = 0;
     
@@ -130,7 +130,7 @@ double drumBrain::play(){
   //  output = channels[0].play(mutes[0]) +channels[1].play(mutes[1]) + channels[2].play(mutes[2]) + channels[3].play(mutes[3]) + channels[4].play(mutes[4]) + channels[5].play(mutes[5]) + channels[6].play(mutes[6]) + channels[7].play(mutes[7]);
 		for (uint8_t i = 0; i < NUM_OF_VOICES; i++){
 		
-		output += voices[i].play(false);
+		output += voices[i].play(false, n);
 	}
    // output = channels[5].play(mutes[5]);
    
@@ -155,11 +155,11 @@ void drumBrain::isIdle(int (&buttonStates)[11]){
 			
 				if(buttonStates[i] == 1){
 					//	Bela_scheduleAuxiliaryTask(gGenerateEuclideanSequence);
-					if(selectMode && i < 7)
+					if(selectMode && i < 9)
 						selectedVoice = i-3;
 					else if (recordMode)
 						sequences[selectedVoice][i-3] = 1-sequences[selectedVoice][i-3]; 
-					else if(i < 7)
+					else if(i < 9)
 						voices[i-3].trigger();
 		
 				}
@@ -198,4 +198,20 @@ void drumBrain::clear(){
 	}
 	
 }
+
+void drumBrain::updateAll(vector<double> vals){
+	int inc = 0;
+			//freq, pma, gain_, om, tm, nm, oa, oh, oR, pa, pr, na, nr
+		//	float f1, float t1,float osc1, float nm1, float pm1, float a1, float r1, float na1, float nr1,
+			for (uint8_t i = 0; i < 4; i++){
+			//	updateVoice(i, vals[0+ inc], vals[1+ inc], 1., vals[3 + inc], vals[4 + inc], vals[5 + inc], 0., 1., 504., 0., 84., 0., 0. );
+			
+			//updateVoice(0, 40., 4.184, 1., 0.692, 1., 0., 0., 1., 504., 0., 84., 0., 0. );		
+				updateVoice(i, vals[0+ inc], vals[1+inc], 1., vals[3 + inc], vals[4 + inc], vals[5 + inc], 0., 1., vals[8 + inc], 0., vals[10+inc], 0., vals[12 + inc]);
+				inc+=13;
+			}
+	
+	
+}
+
 

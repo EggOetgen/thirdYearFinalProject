@@ -14,7 +14,7 @@
 #include "drumSynth.h"
 #include "euclid.h"
 
-#define NUM_OF_VOICES 4
+#define NUM_OF_VOICES 6
 
 
 class drumBrain{
@@ -23,7 +23,7 @@ public:
 
     drumBrain();
 
-    double play();
+    double play(int n);
     void step(int &playHead);
    
      void triggerSelectMode();
@@ -34,6 +34,7 @@ public:
    
    	// void updateVoice(uint8_t voice, double & freq, double & pma, float & gain_, float & om, float & tm, float & nm, float & oa, float & oh, float & oR, float & pa, float & pr, float & na, float & nr);
      void updateVoice(uint8_t voice,  double  freq, double  pma, float  gain_, float  om, float  tm, float  nm, float  oa, float  oh, float  oR, float  pa, float  pr, float  na, float  nr);
+	void updateAll(vector<double> vals);
 	void isIdle(int (&buttonStates)[11]);
     void euclidSeq( uint8_t & length, uint8_t pulses);
      void sequenceVoice( int voice);
