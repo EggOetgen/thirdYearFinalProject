@@ -148,19 +148,19 @@ double drumBrain::play(int n){
 		voices[voice].setAll(freq, pma, gain_, om, tm, nm, oa, oh, oR, pa, pr, na, nr);
 	}
 
-void drumBrain::isIdle(int (&buttonStates)[11]){
+void drumBrain::isIdle(int (&buttonStates)[12]){
 
 		
-		for(uint8_t i = 3; i < 11; i++){
+		for(uint8_t i = 4; i < 12; i++){
 			
 				if(buttonStates[i] == 1){
 					//	Bela_scheduleAuxiliaryTask(gGenerateEuclideanSequence);
-					if(selectMode && i < 9)
-						selectedVoice = i-3;
+					if(selectMode && i < 10)
+						selectedVoice = i-4;
 					else if (recordMode)
-						sequences[selectedVoice][i-3] = 1-sequences[selectedVoice][i-3]; 
-					else if(i < 9)
-						voices[i-3].trigger();
+						sequences[selectedVoice][i-4] = 1-sequences[selectedVoice][i-4]; 
+					else if(i < 10)
+						voices[i-4].trigger();
 		
 				}
 			}
@@ -211,6 +211,19 @@ void drumBrain::updateAll(vector<double> vals){
 				inc+=13;
 			}
 	
+	
+}
+
+
+int * drumBrain::returnSeq(int voice){
+	
+	return sequences[voice];
+	
+}
+
+int * drumBrain::returnCurSeq(){
+	
+	return sequences[selectedVoice];
 	
 }
 

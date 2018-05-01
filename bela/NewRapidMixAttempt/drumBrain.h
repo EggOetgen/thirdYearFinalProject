@@ -25,7 +25,8 @@ public:
 
     double play(int n);
     void step(int &playHead);
-   
+    int * returnSeq(int voice);
+    int * returnCurSeq();
      void triggerSelectMode();
     void endSelectMode();
     void triggerRecordMode();
@@ -35,7 +36,7 @@ public:
    	// void updateVoice(uint8_t voice, double & freq, double & pma, float & gain_, float & om, float & tm, float & nm, float & oa, float & oh, float & oR, float & pa, float & pr, float & na, float & nr);
      void updateVoice(uint8_t voice,  double  freq, double  pma, float  gain_, float  om, float  tm, float  nm, float  oa, float  oh, float  oR, float  pa, float  pr, float  na, float  nr);
 	void updateAll(vector<double> vals);
-	void isIdle(int (&buttonStates)[11]);
+	void isIdle(int (&buttonStates)[12]);
     void euclidSeq( uint8_t & length, uint8_t pulses);
      void sequenceVoice( int voice);
     // void euclidSeq(int voice, int length, int pulses);

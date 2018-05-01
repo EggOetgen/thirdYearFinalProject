@@ -45,8 +45,11 @@ float ptone;
  
  float	buttonPressOneToFour = 0.0;
  float	buttonPressFiveToEight = 0.0;
-int buttonStates[11];
-int buttonInputs[11];
+int buttonStates[12];
+int buttonInputs[12];
+
+int leds[8];
+
 float gPhase;
 float gInverseSampleRate;
 int gAudioFramesPerAnalogFrame;
@@ -84,14 +87,15 @@ bool setup(BelaContext *context, void *userData)
 	gAudioFramesPerAnalogFrame = context->audioFrames / context->analogFrames;
 	gInverseSampleRate = 1.0 / context->audioSampleRate;
 	gPhase = 0.0;
+
 	pinMode(context, 0, P8_16, OUTPUT);
-	// pinMode(context, 0, P8_07, INPUT);
-	// pinMode(context, 0, P8_08, INPUT);
-	// pinMode(context, 0, P8_09, INPUT);
-	// pinMode(context, 0, P8_10, INPUT);
-	// pinMode(context, 0, P8_11, INPUT);
-	// pinMode(context, 0, P8_12, INPUT);
-	// pinMode(context, 0, P8_15, INPUT);
+	pinMode(context, 0, P8_18, OUTPUT);
+	pinMode(context, 0, P8_27, OUTPUT);
+	pinMode(context, 0, P8_28, OUTPUT);
+	pinMode(context, 0, P8_29, OUTPUT);
+	pinMode(context, 0, P8_30, OUTPUT);
+	pinMode(context, 0, P9_12, OUTPUT);
+	pinMode(context, 0, P9_14, OUTPUT);
 	
 	
 	playHead = 0;
@@ -121,6 +125,11 @@ bool setup(BelaContext *context, void *userData)
 		
 		buttonInputs[i] = 0;
 		buttonStates[i] = 0;
+	}
+		for (uint8_t i = 0; i < 8; i++){
+		
+		leds[i] = 0;
+	
 	}
 	// for(int i = 0; i < 10; i++){
 	// float r =	(rand()*(1.0 / (RAND_MAX + 1.0))*0.1);
@@ -225,7 +234,7 @@ vector<double> major = { 261.63,   0.1, 0.9, 0, 1., 0, 50, 100, 500, 50, 500, 50
 
 	//freq, pma, gain_, om, tm, nm, oa, oh, oR, pa, pr, na, nr
 
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 1; i++){
 	float r =	(rand()*(1.0 / (RAND_MAX + 1.0))*0.1);
 	
 	testRapid.addTrainingExampleVector(0.81-r, 0.81-r, drumKitLong);
@@ -318,10 +327,10 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 	 	 if (buttonPressOneToFour >0.209){
 			debounces[0] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[0] > debounceDelay){
-	    	buttonInputs[3] = 1;
 	    	buttonInputs[4] = 1;
 	    	buttonInputs[5] = 1;
 	    	buttonInputs[6] = 1;
+	    	buttonInputs[7] = 1;
 	    }
 		//	buttonInputs[4] = 1;
 			
@@ -329,47 +338,47 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		 
 			debounces[1] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[1] > debounceDelay){
-	    	buttonInputs[3] = 1;
 	    	buttonInputs[4] = 1;
 	    	buttonInputs[5] = 1;
+	    	buttonInputs[6] = 1;
 	    }
 	    }else if(buttonPressOneToFour >0.195&& buttonPressOneToFour <0.2){
 		 
 			debounces[2] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[2] > debounceDelay){
-	    	buttonInputs[3] = 1;
 	    	buttonInputs[4] = 1;
+	    	buttonInputs[5] = 1;
 	    	
 	    }
 	    }else if(buttonPressOneToFour >0.15&& buttonPressOneToFour <0.18){
 		 
 			debounces[3] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[3] > debounceDelay){
-	    	buttonInputs[3] = 1;
-	    	buttonInputs[5] = 1;
+	    	buttonInputs[4] = 1;
 	    	buttonInputs[6] = 1;
+	    	buttonInputs[7] = 1;
 	    }
 	    }else if(buttonPressOneToFour >0.154&& buttonPressOneToFour < 0.16){
 		 
 			debounces[4] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[4] > debounceDelay){
 	    	
-	    	buttonInputs[3] = 1;
-	    	buttonInputs[5] = 1;
+	    	buttonInputs[4] = 1;
+	    	buttonInputs[6] = 1;
 	    }
 	    }else if(buttonPressOneToFour >0.148&& buttonPressOneToFour <0.152){
 		 
 			debounces[5] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[5] > debounceDelay){
-	    	buttonInputs[3] = 1;
+	    	buttonInputs[4] = 1;
 	    	
-	    	buttonInputs[6] = 1;
+	    	buttonInputs[7] = 1;
 	    }
 	    }else if(buttonPressOneToFour >0.14&& buttonPressOneToFour <0.149){
 		 
 			debounces[6] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[6] > debounceDelay){
-	    	buttonInputs[3] = 1;
+	    	buttonInputs[4] = 1;
 	    		digitalWrite(context, n, P8_16, 1);
 	    }
 			
@@ -377,29 +386,29 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		 
 			debounces[7] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[7] > debounceDelay){
-	    	buttonInputs[4] = 1;
 	    	buttonInputs[5] = 1;
 	    	buttonInputs[6] = 1;
+	    	buttonInputs[7] = 1;
 	    }
 	    }else if(buttonPressOneToFour >0.087&& buttonPressOneToFour <0.91){
 		 
 			debounces[8] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[8] > debounceDelay){
-	    	buttonInputs[4] = 1;
 	    	buttonInputs[5] = 1;
+	    	buttonInputs[6] = 1;
 	    
 	    }
 	    }else if(buttonPressOneToFour >0.08&& buttonPressOneToFour <0.088){
 		 
 			debounces[9] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[9] > debounceDelay){
-	    	buttonInputs[4] = 1;
-	    	buttonInputs[6] = 1;
+	    	buttonInputs[5] = 1;
+	    	buttonInputs[7] = 1;
 	    }
 	    }else if (buttonPressOneToFour >0.072&& buttonPressOneToFour < 0.075){
 			debounces[10] = context->audioFramesElapsed;
 					 if(context->audioFramesElapsed + debounces[10] > debounceDelay){
-	    		buttonInputs[4] = 1;
+	    		buttonInputs[5] = 1;
 	    }
 	    	//debounces[1] = context->audioFramesElapsed;
 		//	buttonInputs[5] = 1;
@@ -409,28 +418,28 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 			debounces[11] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[11] > debounceDelay){
 	    
-	    	buttonInputs[5] = 1;
 	    	buttonInputs[6] = 1;
+	    	buttonInputs[7] = 1;
 	    }
 	    }else if (buttonPressOneToFour >0.015 && buttonPressOneToFour < 0.02){
 				debounces[12] = context->audioFramesElapsed;
 				 if(context->audioFramesElapsed + debounces[12] > debounceDelay){
-	    	buttonInputs[5] = 1;
+	    	buttonInputs[6] = 1;
 	    }
 		//	buttonInputs[6] = 1;
 			
-		}else if (buttonPressOneToFour >0.006&& buttonPressOneToFour < 0.01){
+		}else if (buttonPressOneToFour >0.005&& buttonPressOneToFour < 0.01){
 			debounces[13] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[13] > debounceDelay){
-	    	buttonInputs[6] = 1;
+	    	buttonInputs[7] = 1;
 	    }
 		//	buttonInputs[4] = 1;
 			
 		}else {
-				buttonInputs[3] = 0;
 				buttonInputs[4] = 0;
 				buttonInputs[5] = 0;
 				buttonInputs[6] = 0;
+				buttonInputs[7] = 0;
 					digitalWrite(context, n, P8_16, 0);
 			
 		}
@@ -439,10 +448,10 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		 if (buttonPressFiveToEight >0.209){
 			debounces[14] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[14] > debounceDelay){
-	    	buttonInputs[7] = 1;
 	    	buttonInputs[8] = 1;
 	    	buttonInputs[9] = 1;
 	    	buttonInputs[10] = 1;
+	    	buttonInputs[11] = 1;
 	    }
 		//	buttonInputs[4] = 1;
 			
@@ -450,7 +459,7 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		 
 			debounces[15] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[15] > debounceDelay){
-	    	buttonInputs[7] = 1;
+	    	buttonInputs[10] = 1;
 	    	buttonInputs[8] = 1;
 	    	buttonInputs[9] = 1;
 	    }
@@ -458,7 +467,7 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		 
 			debounces[16] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[16] > debounceDelay){
-	    	buttonInputs[7] = 1;
+	    	buttonInputs[9] = 1;
 	    	buttonInputs[8] = 1;
 	    	
 	    }
@@ -467,45 +476,45 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 			debounces[17] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[17] > debounceDelay){
 	    	buttonInputs[7] = 1;
-	    	buttonInputs[8] = 1;
-	    	buttonInputs[10] = 1;
+	    	buttonInputs[9] = 1;
+	    	buttonInputs[11] = 1;
 	    }
 	    }else if(buttonPressFiveToEight >0.154&& buttonPressFiveToEight < 0.16){
 		 
 			debounces[18] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[18] > debounceDelay){
 	    	
-	    	buttonInputs[7] = 1;
-	    	buttonInputs[9] = 1;
+	    	buttonInputs[8] = 1;
+	    	buttonInputs[10] = 1;
 	    }
 	    }else if(buttonPressFiveToEight >0.148&& buttonPressFiveToEight <0.152){
 		 
 			debounces[19] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[19] > debounceDelay){
-	    	buttonInputs[7] = 1;
+	    	buttonInputs[8] = 1;
 	    	
-	    	buttonInputs[10] = 1;
+	    	buttonInputs[11] = 1;
 	    }
 	    }else if(buttonPressFiveToEight >0.14&& buttonPressFiveToEight <0.149){
 		 
 			debounces[20] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[20] > debounceDelay){
-	    	buttonInputs[7] = 1;
+	    	buttonInputs[8] = 1;
 	    }
 			
 		}else if(buttonPressFiveToEight >0.093&& buttonPressFiveToEight <0.1){
 		 
 			debounces[21] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[22] > debounceDelay){
-	    	buttonInputs[7] = 1;
-	    	buttonInputs[9] = 1;
+	    	buttonInputs[8] = 1;
+	    	buttonInputs[11] = 1;
 	    	buttonInputs[10] = 1;
 	    }
 	    }else if(buttonPressFiveToEight >0.087&& buttonPressFiveToEight <0.91){
 		 
 			debounces[22] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[22] > debounceDelay){
-	    	buttonInputs[8] = 1;
+	    	buttonInputs[10] = 1;
 	    	buttonInputs[9] = 1;
 	    
 	    }
@@ -513,13 +522,13 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		 
 			debounces[23] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[23] > debounceDelay){
-	    	buttonInputs[8] = 1;
-	    	buttonInputs[10] = 1;
+	    	buttonInputs[9] = 1;
+	    	buttonInputs[11] = 1;
 	    }
 	    }else if (buttonPressFiveToEight >0.072&& buttonPressFiveToEight < 0.075){
 			debounces[24] = context->audioFramesElapsed;
 					 if(context->audioFramesElapsed + debounces[24] > debounceDelay){
-	    		buttonInputs[8] = 1;
+	    		buttonInputs[9] = 1;
 	    }
 	    	//debounces[1] = context->audioFramesElapsed;
 		//	buttonInputs[5] = 1;
@@ -529,25 +538,25 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 			debounces[25] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[25] > debounceDelay){
 	    
-	    	buttonInputs[9] = 1;
+	    	buttonInputs[11] = 1;
 	    	buttonInputs[10] = 1;
 	    }
 	    }else if (buttonPressFiveToEight >0.015 && buttonPressFiveToEight < 0.02){
 				debounces[26] = context->audioFramesElapsed;
 				 if(context->audioFramesElapsed + debounces[26] > debounceDelay){
-	    	buttonInputs[9] = 1;
+	    	buttonInputs[10] = 1;
 	    }
 		//	buttonInputs[6] = 1;
 			
 		}else if (buttonPressFiveToEight >0.006&& buttonPressFiveToEight < 0.01){
 			debounces[27] = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounces[27] > debounceDelay){
-	    	buttonInputs[10] = 1;
+	    	buttonInputs[11] = 1;
 	    }
 		//	buttonInputs[4] = 1;
 			
 		}else {
-				buttonInputs[7] = 0;
+				buttonInputs[11] = 0;
 				buttonInputs[8] = 0;
 				buttonInputs[9] = 0;
 				buttonInputs[10] = 0;
@@ -593,103 +602,9 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		 
 		 ptone =tone;
 		 pfrequency = frequency;
-		//  if(buttonPressFiveToEight >0.824){
-		// 	buttonInputs[7] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.819){
-		// 	buttonInputs[9] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.812){
-		// 	buttonInputs[10] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.74){
-		// 	buttonInputs[8] = 1;
-			
-		// }else {
-		// 		buttonInputs[7] = 0;
-		// 		buttonInputs[8] = 0;
-		// 		buttonInputs[9] = 0;
-		// 		buttonInputs[10] = 0;
-			
-		// }
-		// 	buttonPressOneToFour = analogRead(context, n/gAudioFramesPerAnalogFrame, buttonsPinOneToFour);
 	
-		//  if(buttonPressOneToFour >0.824){
-		 	
-	 //   		buttonInputs[3] = 1;
-	    
-		
 			
-		// }else if (buttonPressOneToFour >0.819){
-		
-		 
-	 //   		buttonInputs[5] = 1;
-	    
-			
-		// }else if (buttonPressOneToFour >0.812){
 	
-		 	
-	 //   		buttonInputs[6] = 1;
-	    
-			
-		// }else if (buttonPressOneToFour >0.74){
-		
-		 	
-	 //   		buttonInputs[4] = 1;
-	    
-			
-		// }else {
-		// 		buttonInputs[3] = 0;
-		// 		buttonInputs[4] = 0;
-		// 		buttonInputs[5] = 0;
-		// 		buttonInputs[6] = 0;
-			
-		// }
-		
-		// buttonPressFiveToEight = analogRead(context, n/gAudioFramesPerAnalogFrame, buttonsPinFiveToEight);
-		//  if(buttonPressFiveToEight >0.824){
-		// 	buttonInputs[7] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.819){
-		// 	buttonInputs[9] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.812){
-		// 	buttonInputs[10] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.74){
-		// 	buttonInputs[8] = 1;
-			
-		// }else {
-		// 		buttonInputs[7] = 0;
-		// 		buttonInputs[8] = 0;
-		// 		buttonInputs[9] = 0;
-		// 		buttonInputs[10] = 0;
-			
-		// }
-		// 	buttonPressFiveToEight = analogRead(context, n/gAudioFramesPerAnalogFrame, buttonsPinFiveToEight);
-		//  if(buttonPressFiveToEight >0.824){
-		// 	buttonInputs[3] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.819){
-		// 	buttonInputs[5] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.812){
-		// 	buttonInputs[6] = 1;
-			
-		// }else if (buttonPressFiveToEight >0.74){
-		// 	buttonInputs[4] = 1;
-			
-		// }else {
-		// 		buttonInputs[3] = 0;
-		// 		buttonInputs[4] = 0;
-		// 		buttonInputs[5] = 0;
-		// 		buttonInputs[6] = 0;
-			
-		// }
-		 //if((context->audioFramesElapsed % 10) == 0)
-		 //	Bela_scheduleAuxiliaryTask(gPrintData);
-		
-		 //}
 		}
 	 
 	 
@@ -714,10 +629,15 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 //	buttonInputs[5]=digitalRead(context, 0, P8_12); //read the value of the button
 	
 	//	buttonInputs[6]=digitalRead(context, 0, P8_15); //read the value of the button
-		if(digitalRead(context, 0, P8_15) ==1)
+		if(digitalRead(context, 0, P8_09) ==1)
 			debounceSELECT = context->audioFramesElapsed;
 	    if(context->audioFramesElapsed + debounceSHIFT > debounceDelay){
-	    		buttonInputs[2]=digitalRead(context, 0, P8_15); //read the value of the button
+	    		buttonInputs[2]=digitalRead(context, 0, P8_09); //read the value of the button
+	    }
+	    	if(digitalRead(context, 0, P8_10) ==1)
+			debounceSELECT = context->audioFramesElapsed;
+	    if(context->audioFramesElapsed + debounceSHIFT > debounceDelay){
+	    		buttonInputs[3]=digitalRead(context, 0, P8_10); //read the value of the button
 	    }
 	Bela_scheduleAuxiliaryTask(gCheckButtons);
 		
@@ -765,7 +685,7 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 		
 //	digitalWriteOnce(context, n, P8_07, 1); //write the status to the LED
 //	}
-		
+	
 		  benKlock.ticker();
   if(play == 1){
   	
@@ -779,12 +699,31 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
           
             testBrain.step(playHead);
              playHead++;
-            playHead%=16;
+            playHead%=8;
+            for(uint8_t i = 0 ; i < 8; i++){
+            	if(i == playHead)
+            		leds[i] = 1;
+            	else
+            		leds[i]=0;
+            	
+            }
 		//	if(test.sequence[playHead] == 1)		
         //	  test.trigger();
         }
       
+      
 }
+
+	int *  curSeq = testBrain.returnCurSeq();
+	for(uint8_t i = 0 ; i < 8; i++){
+            if(curSeq[i] == 1)	
+            		leds[i]=1;
+            else
+            	leds[i] = 0;
+	
+            	
+            }
+
 
    float out = testBrain.play(n) * analogRead(context, n/gAudioFramesPerAnalogFrame, volPot); ;
 	
@@ -797,6 +736,14 @@ for(unsigned int n = 0; n < context->audioFrames; n++) {
 			// Or using the macros:
 			audioWrite(context, n, channel, out);
 		}
+		digitalWrite(context, n, P8_16, leds[0]);
+        digitalWrite(context, n, P8_18, leds[1]);
+        digitalWrite(context, n, P8_27, leds[2]);
+        digitalWrite(context, n, P8_28, leds[3]);
+        digitalWrite(context, n, P8_29, leds[4]);
+        digitalWrite(context, n, P8_30, leds[5]);
+        digitalWrite(context, n, P9_12, leds[6]);
+        digitalWrite(context, n, P9_14, leds[7]);
 	}
 
 	
@@ -832,67 +779,7 @@ void runRegression (void*){
 		 	std::vector<double> regressionOutput;
 		 regressionOutput= testRapid.addRunExample(frequency, tone);
 		 testBrain.updateAll(regressionOutput);
-			//  testBrain.voices[testBrain.selectedVoice].frequency =regressionOutput[0];
-		 //testBrain.voices[testBrain.selectedVoice].oscMix =regressionOutput[1];
-		 //testBrain.voices[testBrain.selectedVoice].pitchModAmount = regressionOutput[2];
-		 //testBrain.voices[testBrain.selectedVoice].setOscEnv( regressionOutput[3], 1, 1, regressionOutput[4]);
-		 
-		//  	   testBrain.voices[0].frequency =regressionOutput[0];
-		//  for(int i = 0; i < regressionOutput.size(); i++){
-		//  //	if (!regressionOutput[0] )
-		//  //		std::cout << i << std::endl;
-		//  //}
-		//  	   printf("%f", regressionOutput[i]);
-		//  	     printf("%s", "\n");
-		//  	     //printf("%f", regressionOutput[1]); 
-		//  	     //printf("%s", "\n");
-		//  	     //  printf("%f", regressionOutput[2]);
-		//  	     //    printf("%s", "\n");
-		//  	     //    printf("%f", regressionOutput[3]);
-		//  	     //      printf("%s", "\n");
-		//  	     //      printf("%f", regressionOutput[4]);
-		//  	     //        printf("%s", "\n");
-		//  	     //        printf("%f", regressionOutput[5]);
-		//  	               printf("%f", 9999999.);
-		// }
-		//  testBrain.voices[0].oscMix =regressionOutput[1];
-		// // testBrain.voices[0].toneMix =regressionOutput[2];
-		//  testBrain.voices[0].noiseMix =regressionOutput[3];
-		//  testBrain.voices[0].pitchModAmount = regressionOutput[4];
-		//  //testBrain.voices[0].setOscEnv( regressionOutput[5], 1, 1, regressionOutput[6]);
-		//  //testBrain.voices[0].setNoiseEnv( regressionOutput[7], 1, 1, regressionOutput[8]);
-		// // for(int i = 0; i < 4; i++){
-		// //  testBrain.voices[i].frequency =regressionOutput[0+i];
-		// //  testBrain.voices[i].oscMix =regressionOutput[2+i];
-		// //  testBrain.voices[i].toneMix =regressionOutput[3+9];
-		// //  testBrain.voices[i].noiseMix =regressionOutput[4+i];
-		// //  testBrain.voices[i].pitchModAmount = regressionOutput[11];
-		// // }	 
-		//  	 testBrain.voices[1].frequency =regressionOutput[9];
-		//  testBrain.voices[1].oscMix =regressionOutput[10];
-		//  testBrain.voices[1].toneMix =regressionOutput[11];
-		//  testBrain.voices[1].noiseMix =regressionOutput[12];
-		//  testBrain.voices[1].pitchModAmount = regressionOutput[13];
-		//  //testBrain.voices[1].setOscEnv( regressionOutput[14], 1, 1, regressionOutput[15]);
-		//  //testBrain.voices[1].setNoiseEnv( regressionOutput[16], 1, 1, regressionOutput[17]);
 		
-		//  testBrain.voices[2].frequency =regressionOutput[18];
-		//   testBrain.voices[2].oscMix =regressionOutput[19];
-		//   testBrain.voices[2].toneMix =regressionOutput[20];
-		//   testBrain.voices[2].noiseMix =regressionOutput[21];
-		//   testBrain.voices[2].pitchModAmount = regressionOutput[22];
-		// //  testBrain.voices[2].setOscEnv( regressionOutput[20], 1, 1, regressionOutput[21]);
-		// //  testBrain.voices[2].setNoiseEnv( regressionOutput[22], 1, 1, regressionOutput[23]);
-		// // // // 	//testBrain.updateVoice(0, regressionOutput[0],regressionOutput[1],regressionOutput[2],regressionOutput[3],regressionOutput[4],regressionOutput[5],regressionOutput[6],regressionOutput[7],regressionOutput[8],regressionOutput[9],regressionOutput[10],regressionOutput[11],regressionOutput[12]);
-
-	 //testBrain.voices[3].frequency =regressionOutput[27];
-		//   testBrain.voices[3].oscMix =regressionOutput[28];
-		//   testBrain.voices[3].toneMix =regressionOutput[29];
-		//   testBrain.voices[3].noiseMix =regressionOutput[30];
-		//  testBrain.voices[3].pitchModAmount = regressionOutput[31];
-		//  //testBrain.voices[3].setOscEnv( regressionOutput[29], 1, 1, regressionOutput[30]);
-		//  //testBrain.voices[3].setNoiseEnv( regressionOutput[31], 1, 1, regressionOutput[32]);
-	
 }
 void printData (void*){
 		cout<< frequency << " "  << tone << endl;

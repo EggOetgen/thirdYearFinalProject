@@ -137,7 +137,7 @@ output = 0;
 
         //https://stackoverflow.com/questions/3451553/value-remapping
       //  pitchModOut = (pitchModOut * (pitchModAmount));
-      // noiseEnvOut = noiseAmpEnv.adsr(1., noiseAmpEnv.trigger);
+     // noiseEnvOut = noiseAmpEnv.adsr(1., noiseAmpEnv.trigger);
         noiseEnvOut = test.adsr(1., test.trigger);
        // cout <<noiseEnvOut <<endl;
 	//	oscMix = 1;
