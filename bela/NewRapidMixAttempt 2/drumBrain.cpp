@@ -206,7 +206,11 @@ void drumBrain::updateAll(vector<double> vals){
 			for (uint8_t i = 0; i < 4; i++){
 			//	updateVoice(i, vals[0+ inc], vals[1+ inc], 1., vals[3 + inc], vals[4 + inc], vals[5 + inc], 0., 1., 504., 0., 84., 0., 0. );
 			
-			//updateVoice(0, 40., 4.184, 1., 0.692, 1., 0., 0., 1., 504., 0., 84., 0., 0. );		
+			//updateVoice(0, 40., 4.184, 1., 0.692, 1., 0., 0., 1., 504., 0., 84., 0., 0. );
+			// if ( vals[12 + inc] < 10)
+			// 	 vals[12 + inc] = 10;
+			// if ( vals[8 + inc] < 10)
+			// 	 vals[8 + inc] = 10;
 				updateVoice(i, vals[0+ inc], vals[1+inc], 1., vals[3 + inc], vals[4 + inc], vals[5 + inc], 0., 1., vals[8 + inc], 0., vals[10+inc], 0., vals[12 + inc]);
 				inc+=13;
 			}
