@@ -1,1 +1,0 @@
-/***** trainingEcample.cpp *****/
